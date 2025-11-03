@@ -356,7 +356,6 @@ function App() {
   const [selectedColor, setSelectedColor] = useState(null);
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Mobile message - only shows below lg */}
       <div className="flex min-h-screen items-center justify-center p-8 lg:hidden">
         <div className="text-center">
           <h1 className="font-sans text-xs font-normal text-black">
@@ -371,7 +370,6 @@ function App() {
         </div>
       </div>
 
-      {/* Main content - hidden below sm, shows on sm and up */}
       <div className="hidden lg:block">
         <header className="flex w-full items-center justify-between px-8 pt-8">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl bg-white">
@@ -439,7 +437,6 @@ function Modal({ color, onClose }) {
   const activeColorHex =
     TAILWIND_COLORS[colorKey]?.[activeShade] || TAILWIND_COLORS.blue[600];
 
-  // Disable body scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -501,7 +498,6 @@ function Modal({ color, onClose }) {
             </button>
           </div>
           <div className="grid h-full grid-cols-3 grid-rows-[1fr_2fr] gap-4">
-            {/* top row */}
             <div
               className="rounded-2xl bg-white flex items-center justify-center p-6"
               style={{
@@ -572,7 +568,6 @@ function Modal({ color, onClose }) {
               </AlertDialog>
             </div>
 
-            {/* bottom row */}
             <div
               className="col-span-2 rounded-2xl bg-white flex items-center justify-center p-6"
               style={{
