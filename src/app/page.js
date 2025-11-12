@@ -32,6 +32,7 @@ import {
   InputGroupTextarea,
 } from "@/components/ui/input-group";
 import { Search, ArrowUp, Check, Plus, X } from "lucide-react";
+import { Drawer } from "vaul";
 
 const NAMES = [
   "red",
@@ -379,7 +380,7 @@ function App() {
             Tailwind's Color Palette
           </h1>
           <a
-            href="https://x.com/jadenkdesign"
+            href="http://jadenkim.design/"
             target="_blank"
             rel="noopener noreferrer"
             className="font-sans text-sm text-black hover:underline"
@@ -399,9 +400,24 @@ function App() {
           ))}
         </div>
 
-        {selectedColor && (
-          <Modal color={selectedColor} onClose={() => setSelectedColor(null)} />
-        )}
+        <Drawer.Root
+          open={Boolean(selectedColor)}
+          onOpenChange={(open) => {
+            if (!open) {
+              setSelectedColor(null);
+            }
+          }}
+        >
+          <Drawer.Portal>
+            <Drawer.Overlay className="fixed inset-0 z-50 bg-black/80" />
+            {selectedColor && (
+              <ColorDrawer
+                color={selectedColor}
+                onClose={() => setSelectedColor(null)}
+              />
+            )}
+          </Drawer.Portal>
+        </Drawer.Root>
       </div>
     </div>
   );
@@ -429,7 +445,7 @@ function ColorCard({ name, swatch, onOpen }) {
   );
 }
 
-function Modal({ color, onClose }) {
+function ColorDrawer({ color, onClose }) {
   const [activeShade, setActiveShade] = useState(600);
   const [textareaValue, setTextareaValue] = useState("");
   const SHADES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
@@ -445,11 +461,8 @@ function Modal({ color, onClose }) {
   }, []);
 
   return (
-    <div onClick={onClose} className="fixed inset-0 z-50 bg-black/80">
-      <div
-        className="mx-auto mt-16 flex h-[calc(100vh-4rem)] bg-white"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <Drawer.Content className="fixed inset-x-0 bottom-0 z-60 flex h-[calc(100vh-4rem)] rounded-t-3xl bg-transparent outline-none focus-visible:outline-none">
+      <div className="flex h-full w-full rounded-t-3xl bg-white">
         <div className="flex h-full flex-col w-64 border border-slate-200 bg-neutral-50 p-8">
           <div className="mb-6">
             <h1 className="font-sans text-xs font-normal text-black/50">
@@ -489,13 +502,15 @@ function Modal({ color, onClose }) {
 
         <div className="flex flex-1 flex-col bg-gray-100 p-8">
           <div className="mb-6 flex justify-end">
-            <button
-              onClick={onClose}
-              className="rounded-full p-2 hover:bg-gray-200 transition-colors"
-              aria-label="Close"
-            >
-              <X className="size-4" />
-            </button>
+            <Drawer.Close asChild>
+              <button
+                onClick={onClose}
+                className="rounded-full p-2 hover:bg-gray-200 transition-colors"
+                aria-label="Close"
+              >
+                <X className="size-4" />
+              </button>
+            </Drawer.Close>
           </div>
           <div className="grid h-full grid-cols-3 grid-rows-[1fr_2fr] gap-4">
             <div
@@ -633,7 +648,7 @@ function Modal({ color, onClose }) {
           </div>
         </div>
       </div>
-    </div>
+    </Drawer.Content>
   );
 }
 
