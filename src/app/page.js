@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/input-group";
 import { Search, ArrowUp, Check, Plus, X } from "lucide-react";
 import { Drawer } from "vaul";
+import { Analytics } from "@vercel/analytics/next";
 
 const NAMES = [
   "red",
